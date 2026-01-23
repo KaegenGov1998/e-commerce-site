@@ -69,4 +69,7 @@ const CartPage = () => {
   );
 };
 
+<button className="btn-primary">Checkout</button>
+
+
 export default CartPage;
