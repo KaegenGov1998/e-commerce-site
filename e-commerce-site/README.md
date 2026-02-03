@@ -124,3 +124,4 @@ Feature-based branching strategy
 Pull request reviews
 Agreed-upon folder structure and naming conventions
 Clear task delegation among team members
+
