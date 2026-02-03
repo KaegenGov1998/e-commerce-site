@@ -4,6 +4,10 @@ import { products } from '../data/products';
 import { setCart, selectCartItems, selectCartTotal } from '../redux/cartSlice';
 import CartItem from '../components/CartItem';
 
+import { setCart, selectCartItems, selectCartTotal } from '../redux/cartSlice';
+import cartReducer from './cartSlice';
+
+
 const CartSummary = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectCartItems);
