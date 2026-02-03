@@ -1,4 +1,3 @@
-// src/data/products.js
 export const products = [
   {
     id: 'dell-xps-13',
