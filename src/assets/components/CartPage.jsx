@@ -1,75 +1,103 @@
+// src/pages/CartPage.jsx
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { increaseQty, decreaseQty, removeItem } from "../redux/cartSlice";
+import {
+  selectCartItems,
+  selectCartTotalPrice,
+  increaseQty,
+  decreaseQty,
+  removeItem,
+} from "../redux/cartSlice";
 
 const CartPage = () => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
-  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const cartItems = useSelector(selectCartItems); // get items from Redux
+  const totalPrice = useSelector(selectCartTotalPrice); // derived selector
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <h1 className="text-2xl font-bold mb-6">🛍️ Check your Bag Items</h1>
+    <div className="flex flex-col md:flex-row gap-8 p-6">
+      {/* LEFT SIDE: Cart Items */}
+      <div className="flex-1">
+        <h2 className="text-2xl font-bold mb-4">Check your Bag Items</h2>
 
-      <div className="space-y-6">
-        {cartItems.map((item) => (
-          <div
-            key={item.id}
-            className="flex items-center justify-between bg-white shadow-md rounded-lg p-4"
-          >
-            <div className="flex items-center space-x-4">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-24 h-24 object-cover rounded-md"
-              />
+        {cartItems.length === 0 ? (
+          <p className="text-gray-500">Your cart is empty.</p>
+        ) : (
+          cartItems.map((item) => (
+            <div
+              key={item.id}
+              className="flex justify-between items-center border-b py-4"
+            >
+              {/* Product Info */}
               <div>
-                <h2 className="text-lg font-semibold">{item.name}</h2>
+                <h3 className="text-lg font-semibold">{item.name}</h3>
+                <p className="text-sm text-gray-600">Color: {item.color}</p>
                 <p className="text-sm text-gray-500">{item.description}</p>
-                <p className="text-yellow-500 text-sm">⭐ {item.rating}/5</p>
-                <p className="text-gray-800 font-bold">
-                  ${item.price.toFixed(2)} × {item.qty}
+                <p className="text-yellow-500 text-sm">
+                  ★★★★★ {item.rating} / 5
+                </p>
+                <p className="text-blue-600 font-bold">
+                  ${item.price.toFixed(2)}
                 </p>
               </div>
-            </div>
 
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => dispatch(decreaseQty(item.id))}
-                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-              >
-                -
-              </button>
-              <span className="px-3">{item.qty}</span>
-              <button
-                onClick={() => dispatch(increaseQty(item.id))}
-                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
-              >
-                +
-              </button>
+              {/* Quantity Controls */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => dispatch(decreaseQty(item.id))}
+                  className="px-2 py-1 bg-gray-200 rounded"
+                >
+                  -
+                </button>
+                <span className="px-3">{item.quantity}</span>
+                <button
+                  onClick={() => dispatch(increaseQty(item.id))}
+                  className="px-2 py-1 bg-gray-200 rounded"
+                >
+                  +
+                </button>
+              </div>
+
+              {/* Remove Button */}
               <button
                 onClick={() => dispatch(removeItem(item.id))}
-                className="ml-4 text-red-500 hover:text-red-700"
+                className="text-red-500 text-sm ml-4"
               >
-                ✕
+                Remove
               </button>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
-      <div className="mt-8 bg-white shadow-md rounded-lg p-6 flex justify-between items-center">
-        <h2 className="text-xl font-bold">Bag Total:</h2>
-        <p className="text-2xl font-bold text-green-600">${totalPrice.toFixed(2)}</p>
-        <button className="ml-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+      {/* RIGHT SIDE: Bag Summary */}
+      <div className="w-full md:w-1/3 bg-gray-50 p-6 rounded-lg shadow">
+        <h3 className="text-xl font-bold mb-4">Bag</h3>
+
+        {/* Thumbnails */}
+        <div className="flex gap-2 mb-4">
+          {cartItems.map((item) => (
+            <img
+              key={item.id}
+              src={item.image}
+              alt={item.name}
+              className="w-16 h-16 object-cover rounded"
+            />
+          ))}
+        </div>
+
+        {/* Total */}
+        <p className="text-lg font-semibold mb-4">
+          Bag Total: ${totalPrice.toFixed(2)}
+        </p>
+
+        {/* Checkout Button */}
+        <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
           Checkout
         </button>
       </div>
     </div>
   );
 };
-
-<button className="btn-primary">Checkout</button>
-
 
 export default CartPage;
