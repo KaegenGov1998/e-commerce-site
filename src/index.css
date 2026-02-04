@@ -2,11 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom reusable classes */
-.btn-primary {
-  @apply px-6 py-2 bg-primary text-white rounded hover:bg-blue-700;
-}
-
-.card {
-  @apply bg-white shadow-md rounded-lg p-4;
+/* Optional global tweaks */
+body {
+  @apply bg-gray-100 font-sans;
 }
